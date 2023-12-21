@@ -1,6 +1,10 @@
 -- Habilitar o UTF8
 os.execute("chcp 65001")
 
+-- Dependências
+local player = require("characteres.player")
+local colossus = require('characteres.colossus')
+
 --Header
 print([[
 
@@ -16,3 +20,5 @@ print([[
     Empunhe a sua espada e prepare-se para a luta.
 
 ]])
+
+local boss = colossus
