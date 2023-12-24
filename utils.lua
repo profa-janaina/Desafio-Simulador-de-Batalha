@@ -64,4 +64,11 @@ function utils.printCreature(creature)
     print("| ")
 end
 
+---Pergunta ao usuário o número da ação a ser tomada
+---@return number
+function utils.ask()
+    io.write("> ")
+    local answer = io.read("n")
+    return answer
+end
 return utils

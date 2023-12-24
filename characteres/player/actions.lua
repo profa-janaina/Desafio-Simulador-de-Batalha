@@ -1,3 +1,4 @@
+local utils = require "utils"
 local actions = {}
 
 actions.list = {}
@@ -25,7 +26,9 @@ function actions.build()
                 local damage = math.max(1, math.ceil(rawDamage))
 
                 print(string.format("Você atacou a criatura causando %d pontos de dano", damage))
-                
+                local healthRate = math.floor((creatureData.health / creatureData.maxHealth)*10)
+                print(string.format('%s: %s', creatureData.name, utils.getProgressBar(healthRate)))
+                print()
                 --4. Aplicar o dano
                 creatureData.health = creatureData.health - damage
             else
@@ -36,7 +39,7 @@ function actions.build()
 
     -- Usar poção de regeneração
     local regenPotion ={
-        description = "Atacar com a espada.",
+        description = "Tomar uma poção de regeneração.",
         requirement = function (playerData, creatureData)
             return playerData.potions >= 1
         end,
@@ -53,7 +56,7 @@ function actions.build()
 
     --Adicionar ação a lista
     actions.list[#actions.list+1] = swordAttack
-    -- actions.list[#actions.list+1] = regenPotion
+    actions.list[#actions.list+1] = regenPotion
 end
 
 ---
