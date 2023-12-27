@@ -24,15 +24,21 @@ function actions.build()
                 --3. Calcular dano
                 local rawDamage = playerData.attack - math.random() * creatureData.defense
                 local damage = math.max(1, math.ceil(rawDamage))
+                
+                --4. Aplicar o dano
+                creatureData.health = creatureData.health - damage
 
-                print(string.format("Você atacou a criatura causando %d pontos de dano", damage))
+                --5. Apresentar o resultado
+                print()
+                print(string.format("%s atacou %s causando %d pontos de dano", playerData.name, creatureData.name, damage))
                 local healthRate = math.floor((creatureData.health / creatureData.maxHealth)*10)
                 print(string.format('%s: %s', creatureData.name, utils.getProgressBar(healthRate)))
                 print()
-                --4. Aplicar o dano
-                creatureData.health = creatureData.health - damage
             else
-                print("O seu ataque falhou, treine mais e tente novamente")  
+                print()
+                print("O ataque falhou, treine mais e tente novamente")  
+                print("o(一︿一+)o") 
+                print() 
             end
         end
     }
@@ -48,9 +54,11 @@ function actions.build()
             playerData.potions =  playerData.potions -1
 
             -- Recuperar vida
-            local regenPoints = 5
+            local regenPoints = 10
             playerData.health = math.min(playerData.maxHealth, playerData.health + regenPoints)
-            print("Você usou uma poção e recuperou pontos de vida")
+            print()
+            print(string.format("%s usou uma poção e recuperou pontos de vida", playerData.name))
+            print()
         end
     }
 

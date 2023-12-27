@@ -10,9 +10,9 @@ function actions.build()
     -- Resetar lista
     actions.list = {}
 
-    --Atacar com o corpo
-    local bodyAttack ={
-        description = "Atacar com a espada.",
+    --Atacar com o bolas de fogo
+    local kunaiAttack ={
+        description = "Lançar kunai contra o inimigo",
         requirement = nil,
         execute = function (playerData, creatureData)
             --1. Definir chance de sucesso
@@ -25,12 +25,14 @@ function actions.build()
                 local rawDamage = creatureData.attack - math.random() * playerData.defense
                 local damage = math.max(1, math.ceil(rawDamage))
 
+                --4. Aplicar o dano
+                playerData.health = playerData.health - damage
+
+                --5. Apresentar o resultado
                 print(string.format("O ataque de %s causou %d pontos de dano", creatureData.name, damage))
                 local healthRate = math.floor((playerData.health / playerData.maxHealth)*10)
                 print(string.format('%s: %s', playerData.name, utils.getProgressBar(healthRate)))
                 print()
-                --4. Aplicar o dano
-                playerData.health = playerData.health - damage
             else
                 print(string.format("O ataque de %s falhou. É hora de %s contra-atacar", creatureData.name, playerData.name))
                 print("╚(•⌂•)╝") 
@@ -39,21 +41,23 @@ function actions.build()
         end
     }
 
-    -- Ataque com sonar
-    local sonarAttack ={
-        description = "Ataque com sonar",
+    -- Ataca o chakra do inimigo, deixando-o paralisado
+    local chakraAttack ={
+        description = "Paralisa o inimigo ao atacar os chakras",
         requirement = nil,
         execute = function (playerData, creatureData)      
              --1. Calcular dano e apresentar resultado como print
              local rawDamage = creatureData.attack - math.random() * playerData.defense
-             local damage = math.min(1, math.ceil(rawDamage * 0.3))
+             local damage = math.min(1, math.ceil(rawDamage * 0.37))
+             
+             --2. Aplicar o dano
+             playerData.health = playerData.health - damage
 
+             --3. Apresentar o resultado
              print(string.format("O ataque de %s causou %d pontos de dano", creatureData.name, damage))
              local healthRate = math.floor((playerData.health / playerData.maxHealth)*10)
              print(string.format('%s: %s', playerData.name, utils.getProgressBar(healthRate)))
              print()
-             --2. Aplicar o dano
-             playerData.health = playerData.health - damage
         end
     }
 
@@ -62,14 +66,15 @@ function actions.build()
         description = "Aguardar",
         requirement = nil,
         execute = function (playerData, creatureData)   
-             print(string.format("%s poupou energia e não atacou", creatureData.name))             
+             print(string.format("%s poupou energia e não atacou", creatureData.name)) 
+             print()            
         end
     }
 
    
     --Adicionar ação a lista
-    actions.list[#actions.list+1] = bodyAttack
-    actions.list[#actions.list+1] = sonarAttack
+    actions.list[#actions.list+1] = kunaiAttack
+    actions.list[#actions.list+1] = chakraAttack
     actions.list[#actions.list+1] = waitAction
 end
 
